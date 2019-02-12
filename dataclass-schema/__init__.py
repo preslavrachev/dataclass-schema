@@ -23,6 +23,7 @@ class OuterClass:
     prop_a: int
     prop_b: InnerClass
     prop_f: List[InnerClass]
+    prop_g: List[int]
 
 
 TYPE_FIELDS_SCHEMA = {
@@ -32,9 +33,9 @@ TYPE_FIELDS_SCHEMA = {
     List: lambda x: {
         "type": "array",
         "item": {
-            # TODO:
-            "ref": "Nested object"
-        } if x.__args__[0] in _classes else x.__args__[0]
+            # TODO: Provide a proper Ref link here
+            "ref": x.__args__[0].__name__
+        } if x.__args__[0] in _classes else TYPE_FIELDS_SCHEMA[x.__args__[0]](x.__args__[0])
     }
 }
 
